@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Wholesale Acceptance Form | KWJ Moving LLC</title>
+<meta name="theme-color" content="#1F2E3D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --slate: #2B3F52; --slate-ink: #16222E; --gold: #D9A441; --gold-deep: #7E5410; --cream: #F4EBD6; --cream-soft: #FBF7EE; --ink: #1C2733; --muted: #4F5D6B; --line: #E1D3B3; --display: "Archivo", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Source Sans 3", system-ui, -apple-system, sans-serif; font-size: 17px; line-height: 1.5; color: var(--ink); background: var(--cream); }
+  header { background: var(--slate-ink); color: #fff; padding: 18px 16px; }
+  header b { font-family: var(--display); font-stretch: 118%; font-weight: 900; font-size: 18px; }
+  header b span { color: var(--gold); }
+  header small { display: block; color: #AEBBC7; font-size: 13px; margin-top: 2px; }
+  main { max-width: 620px; margin: 0 auto; padding: 24px 16px calc(40px + env(safe-area-inset-bottom)); }
+  h1 { font-family: var(--display); font-stretch: 110%; font-weight: 900; font-size: 30px; line-height: 1.1; color: var(--slate-ink); margin: 0 0 8px; }
+  .intro { color: var(--muted); margin: 0 0 24px; }
+  fieldset { border: 0; margin: 0 0 22px; padding: 0; }
+  legend, label.l { display: block; font-weight: 700; color: var(--slate-ink); margin-bottom: 8px; }
+  input[type=text], input[type=tel], input[type=date], textarea {
+    width: 100%; font: inherit; font-size: 17px; padding: 14px; border: 1.5px solid #CDBF9F; border-radius: 10px; background: #fff; color: var(--ink);
+  }
+  input:focus, textarea:focus { outline: 3px solid var(--gold); outline-offset: 1px; border-color: var(--slate); }
+  .field { margin-bottom: 18px; }
+  .opts { display: grid; gap: 10px; }
+  .opt { display: flex; gap: 12px; align-items: flex-start; padding: 16px; background: var(--cream-soft); border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer; }
+  .opt:has(input:checked) { border-color: var(--slate); background: #fff; box-shadow: 0 0 0 2px var(--slate) inset; }
+  .opt input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--slate); flex: none; }
+  .opt b { display: block; font-family: var(--display); color: var(--slate-ink); }
+  .opt span { color: var(--muted); font-size: 15px; }
+  .sig-wrap { position: relative; background: #fff; border: 1.5px solid #CDBF9F; border-radius: 12px; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 180px; touch-action: none; }
+  .sig-line { position: absolute; left: 16px; right: 16px; bottom: 36px; border-top: 1px solid #CDBF9F; pointer-events: none; }
+  .sig-hint { position: absolute; left: 16px; bottom: 10px; font-size: 13px; color: #6B7785; pointer-events: none; }
+  .clear { position: absolute; right: 8px; top: 8px; font: inherit; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid #CDBF9F; background: var(--cream-soft); color: var(--slate-ink); }
+  .err { color: #9B2C1F; font-weight: 600; font-size: 15px; margin: 8px 0 0; min-height: 1em; }
+  button.submit { width: 100%; min-height: 58px; border: 0; border-radius: 12px; background: var(--slate-ink); color: #fff; font-family: var(--display); font-weight: 800; font-size: 18px; cursor: pointer; }
+  button.submit:disabled { opacity: .6; }
+  .fine { font-size: 14px; color: var(--muted); margin-top: 14px; }
+  .done { display: none; text-align: center; padding: 48px 8px; }
+  .done h1 { color: var(--slate-ink); }
+</style>
+</head>
+<body>
+<header><b>KWJ Moving <span>LLC</span></b><small>License No.:39PM00506700 · Wholesale buyers only</small></header>
+<main>
+  <form id="f" name="wholesale-acceptance" method="POST" data-netlify="true" netlify-honeypot="company">
+    <input type="hidden" name="form-name" value="wholesale-acceptance">
+    <p hidden><label>Leave empty <input name="company"></label></p>
+    <input type="hidden" name="signature" id="sig-data">
+
+    <h1>Wholesale Acceptance Form</h1>
+    <p class="intro">Sign below at the loading dock to accept custody of the inventory listed and confirm your settlement option.</p>
+
+    <div class="field"><label class="l" for="name">Buyer full name</label><input type="text" id="name" name="buyer_name" autocomplete="name" required></div>
+    <div class="field"><label class="l" for="phone">Buyer phone</label><input type="tel" id="phone" name="buyer_phone" autocomplete="tel" inputmode="tel" required></div>
+    <div class="field"><label class="l" for="load">Load / lot reference</label><input type="text" id="load" name="load_reference" placeholder="e.g. truck, lot number or date" required></div>
+    <div class="field"><label class="l" for="items">Inventory accepted</label><textarea id="items" name="inventory" rows="4" placeholder="List or describe the items you are taking" required></textarea></div>
+
+    <fieldset>
+      <legend>Settlement option</legend>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="settlement" value="Instant cash buyout" required><div><b>Instant cash buyout</b><span>Agreed price paid now; inventory is fully yours.</span></div></label>
+        <label class="opt"><input type="radio" name="settlement" value="50/50 split ledger"><div><b>50/50 split ledger</b><span>Resale proceeds split 50/50 and tracked on the KWJ ledger.</span></div></label>
+      </div>
+    </fieldset>
+    <div class="field" id="amt-field"><label class="l" for="amount">Agreed buyout amount (if cash)</label><input type="text" id="amount" name="buyout_amount" inputmode="decimal" placeholder="$"></div>
+
+    <div class="field">
+      <label class="opt"><input type="checkbox" name="custody_accepted" value="Yes" required><div><b>I accept custody</b><span>I confirm I have received the inventory listed above and accept responsibility for it from this moment.</span></div></label>
+    </div>
+
+    <div class="field">
+      <label class="l" for="sig">Signature</label>
+      <div class="sig-wrap">
+        <canvas id="sig" aria-label="Signature pad. Draw your signature with your finger."></canvas>
+        <div class="sig-line"></div><div class="sig-hint">Sign with your finger</div>
+        <button type="button" class="clear" id="clear">Clear</button>
+      </div>
+      <p class="err" id="err" role="alert"></p>
+    </div>
+    <input type="hidden" name="signed_at" id="signed-at">
+
+    <button class="submit" type="submit" id="go">Sign and accept</button>
+    <p class="fine">Your signature, the date and time are saved with this form for KWJ Moving LLC records.</p>
+  </form>
+  <div class="done" id="done" role="status"><h1>Signed. Thank you.</h1><p class="intro">Your Wholesale Acceptance Form was received by KWJ Moving LLC.</p></div>
+</main>
+<script>
+  var c = document.getElementById('sig'), x = c.getContext('2d'), drawn = false, down = false;
+  function size() {
+    var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+    c.width = r.width * d; c.height = r.height * d; x.scale(d, d);
+    x.lineWidth = 2.4; x.lineCap = x.lineJoin = 'round'; x.strokeStyle = '#16222E'; drawn = false;
+  }
+  size(); addEventListener('resize', size); // ponytail: resize clears the pad; fine for portrait phone use
+  function pt(e) { var r = c.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  c.addEventListener('pointerdown', function (e) { down = true; c.setPointerCapture(e.pointerId); var p = pt(e); x.beginPath(); x.moveTo(p[0], p[1]); });
+  c.addEventListener('pointermove', function (e) { if (!down) return; var p = pt(e); x.lineTo(p[0], p[1]); x.stroke(); drawn = true; });
+  c.addEventListener('pointerup', function () { down = false; });
+  document.getElementById('clear').onclick = function () { x.clearRect(0, 0, c.width, c.height); drawn = false; };
+
+  var f = document.getElementById('f'), err = document.getElementById('err');
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!drawn) { err.textContent = 'Please sign in the box above.'; c.scrollIntoView({ block: 'center' }); return; }
+    err.textContent = '';
+    document.getElementById('sig-data').value = c.toDataURL('image/png');
+    document.getElementById('signed-at').value = new Date().toString();
+    var go = document.getElementById('go'); go.disabled = true; go.textContent = 'Sending…';
+    // ponytail: the page is hosted on GitHub Pages; submissions still land in Netlify Forms. no-cors hides the response, so only a network failure shows an error. Move to a Google Sheet if that matters.
+    fetch('https://kwj-moving.netlify.app/', { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
+      .then(function () { f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
+      .catch(function () { go.disabled = false; go.textContent = 'Sign and accept'; err.textContent = 'Could not send. Check your signal and tap again.'; });
+  });
+</script>
+</body>
+</html>
