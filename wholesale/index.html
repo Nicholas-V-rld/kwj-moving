@@ -49,8 +49,7 @@
 <body>
 <header><b>KWJ Moving <span>LLC</span></b><small>License No.:39PM00506700 · Wholesale buyers only</small></header>
 <main>
-  <form id="f" name="wholesale-acceptance" method="POST" data-netlify="true" netlify-honeypot="company">
-    <input type="hidden" name="form-name" value="wholesale-acceptance">
+  <form id="f" name="wholesale-acceptance">
     <p hidden><label>Leave empty <input name="company"></label></p>
     <input type="hidden" name="signature" id="sig-data">
 
@@ -92,6 +91,7 @@
   <div class="done" id="done" role="status"><h1>Signed. Thank you.</h1><p class="intro">Your Wholesale Acceptance Form was received by KWJ Moving LLC.</p></div>
 </main>
 <script>
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyEKlS1jhg0Q_vOurynZmDF_i5163uEo1iWUuPdQsoxWX0YQKCqYLTOINLT46IY9iEp/exec';
   var c = document.getElementById('sig'), x = c.getContext('2d'), drawn = false, down = false;
   function size() {
     var r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1;
@@ -113,9 +113,12 @@
     document.getElementById('sig-data').value = c.toDataURL('image/png');
     document.getElementById('signed-at').value = new Date().toString();
     var go = document.getElementById('go'); go.disabled = true; go.textContent = 'Sending…';
-    // ponytail: the page is hosted on GitHub Pages; submissions still land in Netlify Forms. no-cors hides the response, so only a network failure shows an error. Move to a Google Sheet if that matters.
-    fetch('https://kwj-moving.netlify.app/', { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
-      .then(function () { f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
+    var body = Object.fromEntries(new FormData(f)); body.action = 'wholesale';
+    if (body.company) return; // bot filled the hidden field
+    // Same Apps Script web app as /book/: signed PDF in Kenneth's Drive, a sheet row, an email.
+    fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!j.ok) throw new Error(j.error); f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
       .catch(function () { go.disabled = false; go.textContent = 'Sign and accept'; err.textContent = 'Could not send. Check your signal and tap again.'; });
   });
 </script>
