@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Book Your Move | KWJ Moving LLC</title>
+<meta name="theme-color" content="#16222E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --slate: #2B3F52; --slate-ink: #16222E; --gold: #D9A441; --cream: #F4EBD6; --cream-soft: #FBF7EE; --ink: #1C2733; --muted: #4F5D6B; --line: #E1D3B3; --display: "Archivo", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Source Sans 3", system-ui, -apple-system, sans-serif; font-size: 17px; line-height: 1.5; color: var(--ink); background: var(--cream); }
+  header { background: var(--slate-ink); color: #fff; padding: 18px 16px; }
+  header a { color: inherit; text-decoration: none; }
+  header b { font-family: var(--display); font-stretch: 118%; font-weight: 900; font-size: 18px; }
+  header b span { color: var(--gold); }
+  header small { display: block; color: #AEBBC7; font-size: 13px; margin-top: 2px; }
+  main { max-width: 620px; margin: 0 auto; padding: 24px 16px calc(40px + env(safe-area-inset-bottom)); }
+  h1 { font-family: var(--display); font-stretch: 110%; font-weight: 900; font-size: 30px; line-height: 1.1; color: var(--slate-ink); margin: 0 0 8px; }
+  h2 { font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--slate-ink); margin: 0 0 12px; }
+  .intro { color: var(--muted); margin: 0 0 24px; }
+  section.step { background: var(--cream-soft); border: 1.5px solid var(--line); border-radius: 14px; padding: 18px 16px; margin-bottom: 18px; }
+  .num { display: inline-flex; width: 26px; height: 26px; border-radius: 50%; background: var(--slate-ink); color: #fff; font-size: 14px; font-weight: 700; align-items: center; justify-content: center; margin-right: 8px; vertical-align: 2px; }
+  label.l { display: block; font-weight: 700; color: var(--slate-ink); margin-bottom: 6px; }
+  .hint { display: block; font-weight: 400; color: var(--muted); font-size: 15px; margin-top: -2px; margin-bottom: 8px; }
+  input[type=text], input[type=tel], input[type=email], input[type=date], textarea {
+    width: 100%; font: inherit; font-size: 17px; padding: 14px; border: 1.5px solid #CDBF9F; border-radius: 10px; background: #fff; color: var(--ink);
+  }
+  textarea { min-height: 90px; resize: vertical; }
+  input:focus, textarea:focus, .pick:focus-within { outline: 3px solid var(--gold); outline-offset: 1px; border-color: var(--slate); }
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  .pick { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 12px; border: 1.5px dashed var(--slate); border-radius: 12px; background: #fff; font-weight: 700; color: var(--slate-ink); cursor: pointer; text-align: center; }
+  .pick input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  ul.files { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  ul.files li { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  ul.files li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  ul.files li span:last-child { color: var(--muted); flex: none; }
+  .terms { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px; font-size: 15px; color: var(--ink); max-height: 260px; overflow: auto; white-space: pre-line; }
+  .agree { display: flex; gap: 12px; align-items: flex-start; margin: 14px 0; font-size: 16px; }
+  .agree input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--slate); flex: none; }
+  .sig-wrap { position: relative; background: #fff; border: 1.5px solid #CDBF9F; border-radius: 12px; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 180px; touch-action: none; }
+  .sig-line { position: absolute; left: 16px; right: 16px; bottom: 36px; border-top: 1px solid #CDBF9F; pointer-events: none; }
+  .sig-hint { position: absolute; left: 16px; bottom: 10px; font-size: 13px; color: #5C6876; pointer-events: none; }
+  .clear { position: absolute; right: 8px; top: 8px; font: inherit; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid #CDBF9F; background: var(--cream-soft); color: var(--slate-ink); }
+  .err { color: #9B2C1F; font-weight: 600; font-size: 15px; margin: 10px 0 0; min-height: 1em; }
+  button.submit { width: 100%; min-height: 58px; border: 0; border-radius: 12px; background: var(--slate-ink); color: #fff; font-family: var(--display); font-weight: 800; font-size: 18px; cursor: pointer; }
+  button.submit:disabled { opacity: .6; }
+  .progress { display: none; margin-top: 14px; }
+  .bar { height: 10px; border-radius: 99px; background: #E6DCC4; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--slate); transition: width .2s; }
+  .progress p { margin: 8px 0 0; font-size: 15px; color: var(--muted); }
+  .fine { font-size: 14px; color: var(--muted); margin-top: 14px; }
+  .done { display: none; text-align: center; padding: 40px 8px; }
+  .done a { color: var(--slate-ink); font-weight: 700; }
+</style>
+</head>
+<body>
+<header><a href="/"><b>KWJ Moving <span>LLC</span></b><small>License No.:39PM00506700 · State Licensed &amp; Fully Insured</small></a></header>
+<main>
+  <form id="f" novalidate>
+    <h1>Book your move</h1>
+    <p class="intro">Send your details, a short video of your route and photos of what's moving. We'll review them and text you one binding flat rate.</p>
+
+    <section class="step">
+      <h2><span class="num">1</span>Your details</h2>
+      <div class="field"><label class="l" for="name">Full name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+      <div class="field"><label class="l" for="phone">Mobile phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+      <div class="field"><label class="l" for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
+    </section>
+
+    <section class="step">
+      <h2><span class="num">2</span>Your move</h2>
+      <div class="field"><label class="l" for="from">Moving from</label><input id="from" name="from" type="text" autocomplete="street-address" placeholder="Street, town" required></div>
+      <div class="field"><label class="l" for="to">Moving to</label><input id="to" name="to" type="text" placeholder="Street, town" required></div>
+      <div class="field"><label class="l" for="date">Moving date</label><input id="date" name="date" type="date" required></div>
+      <div class="field"><label class="l" for="notes">Anything we should know?</label><span class="hint">Stairs, elevator, parking, heavy or fragile items.</span><textarea id="notes" name="notes"></textarea></div>
+    </section>
+
+    <section class="step">
+      <h2><span class="num">3</span>Route video and photos</h2>
+      <div class="field">
+        <label class="l">Route video</label>
+        <span class="hint">Walk from the truck parking spot to the door and through each room. Under 2 minutes is best.</span>
+        <label class="pick">Add route video<input id="video" type="file" accept="video/*" capture="environment"></label>
+        <ul class="files" id="video-list"></ul>
+      </div>
+      <div class="field">
+        <label class="l">Photos of what's moving</label>
+        <span class="hint">Large furniture, appliances and anything fragile. Up to 15 photos.</span>
+        <label class="pick">Add photos<input id="photos" type="file" accept="image/*" multiple></label>
+        <ul class="files" id="photo-list"></ul>
+      </div>
+    </section>
+
+    <section class="step">
+      <h2><span class="num">4</span>Agreement and signature</h2>
+      <!-- TERMS: replace with KWJ Moving's own agreement text when Kenneth sends it, and bump TERMS_VERSION below. -->
+      <div class="terms" id="terms">KWJ Moving LLC · License No.:39PM00506700 · State Licensed &amp; Fully Insured
+
+1. KWJ Moving reviews your route video, photos and details and sends you one binding flat rate for the move you described.
+2. The flat rate is binding: the price you accept is the price you pay, as long as the move matches what you showed and described.
+3. Under our state-filed mover tariff, the full flat rate is paid when you sign. We do not take deposits or partial payments. Your moving date is secured once payment is received.
+4. By signing below you confirm the details, video and photos you sent are accurate and that you agree to these terms.</div>
+      <label class="agree"><input type="checkbox" id="agree" required><span>I have read and agree to the terms above.</span></label>
+      <label class="l" for="sig">Signature</label>
+      <div class="sig-wrap">
+        <canvas id="sig" aria-label="Signature pad. Draw your signature with your finger."></canvas>
+        <div class="sig-line"></div>
+        <span class="sig-hint">Sign with your finger</span>
+        <button type="button" class="clear" id="clear">Clear</button>
+      </div>
+    </section>
+
+    <button type="submit" class="submit" id="go">Send my booking request</button>
+    <p class="err" id="err" role="alert"></p>
+    <div class="progress" id="progress"><div class="bar"><i id="bar"></i></div><p id="ptext">Uploading…</p></div>
+    <p class="fine">Keep this page open while your video uploads. Your details, files and signature go only to KWJ Moving LLC.</p>
+  </form>
+
+  <div class="done" id="done">
+    <h1>Thank you, we have it.</h1>
+    <p>We'll review your video and photos and text you your binding flat rate.</p>
+    <p>Questions? Call or text <a href="tel:+18482040790">848.204.0790</a>.</p>
+  </div>
+</main>
+
+<script>
+  // Set to the Google Apps Script web app URL after deploying clients/kwj-moving/apps-script (see its README).
+  var ENDPOINT = '';
+  var TERMS_VERSION = 'KWJ-terms-2026-11-01';
+  var MAX_VIDEO = 500 * 1024 * 1024, MAX_PHOTO = 25 * 1024 * 1024, MAX_PHOTOS = 15;
+
+  var c = document.getElementById('sig'), x = c.getContext('2d'), down = false, drawn = false;
+  function size() { var r = c.getBoundingClientRect(), d = devicePixelRatio || 1; c.width = r.width * d; c.height = r.height * d; x.scale(d, d); x.lineWidth = 2.4; x.lineCap = 'round'; x.strokeStyle = '#16222E'; drawn = false; }
+  size(); addEventListener('resize', size); // ponytail: resize clears the pad; fine for portrait phone use
+  function pt(e) { var r = c.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  c.addEventListener('pointerdown', function (e) { down = true; c.setPointerCapture(e.pointerId); var p = pt(e); x.beginPath(); x.moveTo(p[0], p[1]); });
+  c.addEventListener('pointermove', function (e) { if (!down) return; var p = pt(e); x.lineTo(p[0], p[1]); x.stroke(); drawn = true; });
+  c.addEventListener('pointerup', function () { down = false; });
+  document.getElementById('clear').onclick = function () { x.clearRect(0, 0, c.width, c.height); drawn = false; };
+
+  var video = [], photos = [];
+  function mb(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+  function list(id, files) { document.getElementById(id).innerHTML = files.map(function (f) { return '<li><span></span><span>' + mb(f.size) + '</span></li>'; }).join(''); var items = document.getElementById(id).children; files.forEach(function (f, i) { items[i].firstChild.textContent = f.name; }); }
+  document.getElementById('video').onchange = function () { video = [].slice.call(this.files, 0, 1); list('video-list', video); };
+  document.getElementById('photos').onchange = function () { photos = photos.concat([].slice.call(this.files)).slice(0, MAX_PHOTOS); list('photo-list', photos); this.value = ''; };
+
+  var f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
+  function fail(msg, el) { err.textContent = msg; if (el) el.scrollIntoView({ block: 'center' }); }
+  function call(body) {
+    return fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!j.ok) throw new Error(j.error || 'Server error'); return j; });
+  }
+  // ponytail: one PUT per file to a Drive resumable session. Switch to chunked uploads if large videos fail on weak mobile signal.
+  function put(url, file, onProgress) {
+    return new Promise(function (ok, no) {
+      var r = new XMLHttpRequest(); r.open('PUT', url); r.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+      r.upload.onprogress = function (e) { if (e.lengthComputable) onProgress(e.loaded); };
+      r.onload = function () { if (r.status === 200 || r.status === 201) { try { ok(JSON.parse(r.responseText).id); } catch (e) { ok(''); } } else no(new Error('Upload failed (' + r.status + ')')); };
+      r.onerror = function () { no(new Error('Upload interrupted. Check your signal and tap again.')); };
+      r.send(file);
+    });
+  }
+
+  f.addEventListener('submit', function (e) {
+    e.preventDefault(); err.textContent = '';
+    var bad = [].slice.call(f.querySelectorAll('input[required]')).filter(function (i) { return i.type === 'checkbox' ? !i.checked : !i.value.trim() || !i.checkValidity(); })[0];
+    if (bad && bad.id !== 'agree') return fail('Please fill in: ' + f.querySelector('label[for=' + bad.id + ']').textContent + '.', bad);
+    if (!video.length && !photos.length) return fail('Please add your route video or at least one photo.', document.getElementById('video'));
+    if (video[0] && video[0].size > MAX_VIDEO) return fail('That video is over 500 MB. Please record a shorter one.', document.getElementById('video'));
+    if (photos.some(function (p) { return p.size > MAX_PHOTO; })) return fail('One photo is over 25 MB. Please pick a smaller one.', document.getElementById('photos'));
+    if (!document.getElementById('agree').checked) return fail('Please tick that you agree to the terms.', document.getElementById('agree'));
+    if (!drawn) return fail('Please sign in the box.', c);
+    if (!ENDPOINT) return fail('Online booking is being set up. Please call or text 848.204.0790 for now.');
+
+    var files = video.concat(photos), total = files.reduce(function (s, x) { return s + x.size; }, 0), done = 0;
+    var id = new Date().toISOString().slice(0, 10) + '-' + Math.random().toString(36).slice(2, 8);
+    var bar = document.getElementById('bar'), ptext = document.getElementById('ptext');
+    go.disabled = true; go.textContent = 'Sending…'; document.getElementById('progress').style.display = 'block';
+    var uploaded = [];
+    files.reduce(function (chain, file, i) {
+      return chain.then(function () {
+        ptext.textContent = 'Uploading ' + (i + 1) + ' of ' + files.length + '…';
+        return call({ action: 'start', bookingId: id, name: file.name, type: file.type, size: file.size })
+          .then(function (s) { return put(s.uploadUrl, file, function (n) { bar.style.width = Math.round((done + n) / total * 100) + '%'; }); })
+          .then(function (fileId) { done += file.size; uploaded.push({ id: fileId, name: file.name }); });
+      });
+    }, Promise.resolve())
+      .then(function () {
+        ptext.textContent = 'Saving your signed booking…';
+        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: f.to.value.trim(), date: f.date.value, notes: f.notes.value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent, signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
+      })
+      .then(function () { f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
+      .catch(function (e2) { go.disabled = false; go.textContent = 'Send my booking request'; fail(e2.message || 'Could not send. Please try again.'); });
+  });
+</script>
+</body>
+</html>
