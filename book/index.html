@@ -57,6 +57,7 @@
   .fine { font-size: 14px; color: var(--muted); margin-top: 14px; }
   .done { display: none; text-align: center; padding: 40px 8px; }
   .done a { color: var(--slate-ink); font-weight: 700; }
+  .done a.pay { display: flex; align-items: center; justify-content: center; min-height: 58px; margin: 22px auto 6px; max-width: 360px; border-radius: 12px; background: var(--gold); color: var(--slate-ink); font-family: var(--display); font-weight: 800; font-size: 18px; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -124,7 +125,8 @@
 
   <div class="done" id="done">
     <h1>Thank you, we have it.</h1>
-    <p>We'll review your video and photos and text you your binding flat rate.</p>
+    <p>We'll review your video and photos, then text you your binding flat rate with a secure Square payment link. Your moving date is booked once it's paid.</p>
+    <a class="pay" id="pay" hidden>Pay the $1 test payment with Square</a>
     <p>Questions? Call or text <a href="tel:+18482040790">848.204.0790</a>.</p>
   </div>
 </main>
@@ -133,6 +135,10 @@
   // Set to the Google Apps Script web app URL after deploying clients/kwj-moving/apps-script (see its README).
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyEKlS1jhg0Q_vOurynZmDF_i5163uEo1iWUuPdQsoxWX0YQKCqYLTOINLT46IY9iEp/exec';
   var TERMS_VERSION = 'KWJ-terms-2026-11-01';
+  // Kenneth's $1 Square test link. Shown only on kwjmoving.com/book/#pay-test so real customers never pay $1;
+  // real customers get a link for their own flat rate by text.
+  var PAY_LINK = 'https://square.link/u/oWG0mfpn';
+  if (location.hash === '#pay-test') { var pay = document.getElementById('pay'); pay.href = PAY_LINK; pay.hidden = false; }
   var MAX_VIDEO = 500 * 1024 * 1024, MAX_PHOTO = 25 * 1024 * 1024, MAX_PHOTOS = 15;
 
   var c = document.getElementById('sig'), x = c.getContext('2d'), down = false, drawn = false;
