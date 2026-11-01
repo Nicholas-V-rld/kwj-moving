@@ -25,6 +25,8 @@
   a { color: var(--slate); font-weight: 700; text-underline-offset: 3px; }
   figure { margin: 18px 0; } figure img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; }
   figcaption { font-size: 15px; color: var(--muted); margin-top: 6px; }
+  .vids figure { max-width: 300px; } .vids figure.wide { max-width: none; }
+  .vids video { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--slate-ink); border: 1.5px solid var(--line); }
   .note { background: var(--cream-soft); border-left: 4px solid var(--gold); padding: 14px 16px; border-radius: 0 10px 10px 0; }
   .note b { color: var(--slate-ink); }
 </style>
@@ -34,6 +36,14 @@
 <main>
   <h1>Your booking system, step by step</h1>
   <p class="intro">Everything a customer sends you lands in three places: your email, your Google Drive and one sheet. This page shows where to look and what to do next.</p>
+
+  <h2>Video walkthroughs</h2>
+  <div class="vids">
+    <figure><video controls playsinline preload="none" poster="poster-customer.jpg" width="390" height="760"><source src="video-customer.mp4" type="video/mp4"></video><figcaption><b>1. A customer books</b> on their phone (54 seconds).</figcaption></figure>
+    <figure class="wide"><video controls playsinline preload="none" poster="poster-your-side.jpg" width="1280" height="720"><source src="video-your-side.mp4" type="video/mp4"></video><figcaption><b>2. What you get:</b> the email, the Drive folder, the signed PDF and the sheet (35 seconds).</figcaption></figure>
+    <figure><video controls playsinline preload="none" poster="poster-wholesale.jpg" width="390" height="760"><source src="video-wholesale.mp4" type="video/mp4"></video><figcaption><b>3. Wholesale portal (add-on):</b> a buyer signs at the loading dock (33 seconds).</figcaption></figure>
+  </div>
+  <p class="intro">The videos use example customers. Real bookings work the same way.</p>
 
   <h2>1. A customer books</h2>
   <ol>
