@@ -112,6 +112,12 @@
   .wheel::after { content: ""; width: 3.4cqw; aspect-ratio: 1; border-radius: 50%; background: conic-gradient(var(--gold) 0 30deg, #B9C3CC 30deg 120deg, #8E9AA6 120deg 210deg, #B9C3CC 210deg 300deg, #8E9AA6 300deg); }
   .w1 { left: 7cqw; } .w2 { left: 17cqw; } .w3 { right: 6.4cqw; }
   .truck .rig { padding-bottom: 4.4cqw; }
+  /* Narrow trucks (phones): keep the side lettering readable; the door text is too small to read, so the door shows as a plain panel. */
+  @container (max-width: 520px) {
+    .livery small { font-size: 3.3cqw; margin-top: 1.8cqw; }
+    .box-phone { font-size: 5.4cqw; }
+    .cab .door { color: transparent; }
+  }
 
   @media (prefers-reduced-motion: no-preference) {
     .truck { animation: arrive 1.9s cubic-bezier(.16,.84,.3,1) .25s both; }
@@ -152,7 +158,7 @@
   .screen-top b { display: block; color: var(--ink); font-size: 15px; }
   .thread { flex: 1; padding: 12px; display: flex; flex-direction: column; justify-content: flex-end; gap: 7px; }
   .bub { max-width: 80%; padding: 8px 12px; border-radius: 18px; }
-  .me { align-self: flex-end; background: #2F7CF6; color: #fff; border-bottom-right-radius: 5px; }
+  .me { align-self: flex-end; background: #2563EB; color: #fff; border-bottom-right-radius: 5px; }
   .them { align-self: flex-start; background: #E2E5E9; border-bottom-left-radius: 5px; }
   .vid { align-self: flex-end; width: 64%; aspect-ratio: 4 / 3; border-radius: 16px; background: linear-gradient(160deg, #6E8094, #3C5064); display: grid; place-items: center; }
   .vid span { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; color: var(--ink); font-size: 12px; }
@@ -199,6 +205,8 @@
   footer .wrap { border-top: 1px solid rgba(255,255,255,.12); padding-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 32px; }
 
   .callbar { display: none; }
+  ::selection { background: var(--gold); color: var(--ink); }
+  input, textarea { caret-color: var(--slate); }
   a:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
 
   @media (max-width: 900px) {
@@ -216,7 +224,6 @@
     .lead { font-size: 18px; }
     .actions .btn { flex: 1 1 100%; }
     .lot { margin-top: 40px; }
-    .truck { width: 132%; max-width: none; margin: 0; } /* phones: the cab runs off the edge so the lettering stays big */
     .sec { padding: 72px 0; }
     .head { margin-bottom: 36px; }
     .compare { font-size: 16px; }
@@ -229,6 +236,7 @@
       padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--paper); border-top: 1px solid var(--rule);
     }
     .callbar .btn { min-height: 52px; padding: 0 12px; }
+    .phone { max-width: 270px; aspect-ratio: 9 / 15; }
   }
 </style>
 </head>
@@ -329,7 +337,7 @@
           <div class="screen-top"><b>KWJ Moving</b>848.204.0790</div>
           <div class="thread">
             <div class="bub me">Hi, moving from Toms River to Manchester on the 14th. Here's the house.</div>
-            <div class="vid"><span>▶</span></div>
+            <div class="vid"><span><svg viewBox="0 0 12 12" width="12" height="12"><path d="M3 1.8v8.4L10 6z" fill="currentColor"/></svg></span></div>
             <div class="bub me">And 6 photos of the couch, beds and dresser.</div>
             <div class="bub them">Thanks, got it. We'll text your flat rate shortly.</div>
           </div>
