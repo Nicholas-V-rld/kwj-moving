@@ -136,6 +136,8 @@
   // Set to the Google Apps Script web app URL after deploying clients/kwj-moving/apps-script (see its README).
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyEKlS1jhg0Q_vOurynZmDF_i5163uEo1iWUuPdQsoxWX0YQKCqYLTOINLT46IY9iEp/exec';
   var TERMS_VERSION = 'KWJ-terms-2026-11-01';
+  // Mailer QR codes open /book/?v=<village>; the village is added to the booking notes.
+  var VILLAGE = (new URLSearchParams(location.search).get('v') || '').replace(/[^\w ,.'-]/g, '').slice(0, 40);
   // Kenneth's $1 Square test link. Shown only on kwjmoving.com/book/#pay-test so real customers never pay $1;
   // real customers get a link for their own flat rate by text.
   var PAY_LINK = 'https://square.link/u/oWG0mfpn';
@@ -201,7 +203,7 @@
     }, Promise.resolve())
       .then(function () {
         ptext.textContent = 'Saving your signed booking…';
-        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: f.to.value.trim(), date: f.date.value, notes: f.notes.value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent, signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
+        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: f.to.value.trim(), date: f.date.value, notes: (VILLAGE ? 'Came from: ' + VILLAGE + ' mailer\n' : '') + f.notes.value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent, signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
       })
       .then(function () { f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
       .catch(function (e2) { go.disabled = false; go.textContent = 'Send my booking request'; fail(e2.message || 'Could not send. Please try again.'); });
