@@ -42,6 +42,8 @@
   .terms { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px; font-size: 15px; color: var(--ink); max-height: 260px; overflow: auto; white-space: pre-line; }
   .agree { display: flex; gap: 12px; align-items: flex-start; margin: 14px 0; font-size: 16px; }
   .agree input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--slate); flex: none; }
+  .brochure { margin: -4px 0 16px 34px; font-size: 15px; }
+  .brochure a { color: var(--slate-ink); font-weight: 700; }
   .sig-wrap { position: relative; background: #fff; border: 1.5px solid #CDBF9F; border-radius: 12px; overflow: hidden; }
   canvas { display: block; width: 100%; height: 180px; touch-action: none; }
   .sig-line { position: absolute; left: 16px; right: 16px; bottom: 36px; border-top: 1px solid #CDBF9F; pointer-events: none; }
@@ -109,6 +111,8 @@
 3. Under our state-filed mover tariff, the full flat rate is paid when you sign. We do not take deposits or partial payments. Your moving date is secured once payment is received.
 4. By signing below you confirm the details, video and photos you sent are accurate and that you agree to these terms.</div>
       <label class="agree"><input type="checkbox" id="agree" required><span>I have read and agree to the terms above.</span></label>
+      <label class="agree"><input type="checkbox" id="notice" required><span id="notice-text">By checking this box and executing this Order for Service, I acknowledge receipt of the NJ DCA informational brochure 'Important Notice to Consumers Using Public Movers and Warehousemen' and explicitly waive the 24-hour advance notification requirement under N.J.A.C. 13:44D-4.2 for short-notice estate dispersal services.</span></label>
+      <p class="brochure"><a href="https://www.njconsumeraffairs.gov/News/Consumer%20Briefs/public-movers-and-warehousemen.pdf" target="_blank" rel="noopener">Read the brochure: Important Notice to Consumers Using Public Movers and Warehousemen (PDF, NJ Division of Consumer Affairs)</a></p>
       <label class="l" for="sig">Signature</label>
       <div class="sig-wrap">
         <canvas id="sig" aria-label="Signature pad. Draw your signature with your finger."></canvas>
@@ -136,7 +140,7 @@
 <script>
   // Set to the Google Apps Script web app URL after deploying clients/kwj-moving/apps-script (see its README).
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyEKlS1jhg0Q_vOurynZmDF_i5163uEo1iWUuPdQsoxWX0YQKCqYLTOINLT46IY9iEp/exec';
-  var TERMS_VERSION = 'KWJ-terms-2026-11-01';
+  var TERMS_VERSION = 'KWJ-terms-2026-11-03-njdca';
   // Mailer QR codes open /book/?v=<village>; the village is added to the booking notes.
   var VILLAGE = (new URLSearchParams(location.search).get('v') || '').replace(/[^\w ,.'-]/g, '').slice(0, 40);
   // Kenneth's $1 Square test link. Shown only on kwjmoving.com/book/#pay-test so real customers never pay $1;
@@ -181,11 +185,12 @@
   f.addEventListener('submit', function (e) {
     e.preventDefault(); err.textContent = '';
     var bad = [].slice.call(f.querySelectorAll('input[required]')).filter(function (i) { return i.type === 'checkbox' ? !i.checked : !i.value.trim() || !i.checkValidity(); })[0];
-    if (bad && bad.id !== 'agree') return fail('Please fill in: ' + f.querySelector('label[for=' + bad.id + ']').textContent + '.', bad);
+    if (bad && bad.type !== 'checkbox') return fail('Please fill in: ' + f.querySelector('label[for=' + bad.id + ']').textContent + '.', bad);
     if (!video.length && !photos.length) return fail('Please add your route video or at least one photo.', document.getElementById('video'));
     if (video[0] && video[0].size > MAX_VIDEO) return fail('That video is over 500 MB. Please record a shorter one.', document.getElementById('video'));
     if (photos.some(function (p) { return p.size > MAX_PHOTO; })) return fail('One photo is over 25 MB. Please pick a smaller one.', document.getElementById('photos'));
     if (!document.getElementById('agree').checked) return fail('Please tick that you agree to the terms.', document.getElementById('agree'));
+    if (!document.getElementById('notice').checked) return fail('Please tick the NJ brochure acknowledgment.', document.getElementById('notice'));
     if (!drawn) return fail('Please sign in the box.', c);
     if (!ENDPOINT) return fail('Online booking is being set up. Please call or text 848.204.0790 for now.');
 
@@ -204,7 +209,7 @@
     }, Promise.resolve())
       .then(function () {
         ptext.textContent = 'Saving your signed booking…';
-        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: f.to.value.trim(), date: f.date.value, notes: (VILLAGE ? 'Came from: ' + VILLAGE + ' mailer\n' : '') + f.notes.value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent, signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
+        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: f.to.value.trim(), date: f.date.value, notes: (VILLAGE ? 'Came from: ' + VILLAGE + ' mailer\n' : '') + f.notes.value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent + '\n\n[Checked] ' + document.getElementById('notice-text').textContent + '\nBrochure: https://www.njconsumeraffairs.gov/News/Consumer%20Briefs/public-movers-and-warehousemen.pdf', signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
       })
       .then(function () { f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
       .catch(function (e2) { go.disabled = false; go.textContent = 'Send my booking request'; fail(e2.message || 'Could not send. Please try again.'); });
