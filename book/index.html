@@ -33,6 +33,9 @@
   input:focus, textarea:focus, .pick:focus-within { outline: 3px solid var(--gold); outline-offset: 1px; border-color: var(--slate); }
   .field { margin-bottom: 16px; }
   .field:last-child { margin-bottom: 0; }
+  .channel { border: 0; padding: 0; min-width: 0; }
+  .channel legend.l { display: block; font-weight: 700; color: var(--slate-ink); margin-bottom: 6px; padding: 0; }
+  .channel .agree { margin: 8px 0; }
   .pick { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 12px; border: 1.5px dashed var(--slate); border-radius: 12px; background: #fff; font-weight: 700; color: var(--slate-ink); cursor: pointer; text-align: center; }
   .pick input { position: absolute; width: 1px; height: 1px; opacity: 0; }
   .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -80,10 +83,16 @@
 
     <section class="step">
       <h2><span class="num">2</span>Your move</h2>
+      <fieldset class="field channel">
+        <legend class="l">Please select your required service layout:</legend>
+        <label class="agree"><input type="radio" name="service" value="SMALL BATCH MOVE" required><span><b>SMALL BATCH MOVE</b> (Facebook Marketplace Pickups / Local Transport)</span></label>
+        <label class="agree"><input type="radio" name="service" value="GOOD STUFF REMOVAL"><span><b>GOOD STUFF REMOVAL</b> (Premium Usable Furniture Configuration Clearance)</span></label>
+      </fieldset>
       <div class="field"><label class="l" for="from">Moving from</label><input id="from" name="from" type="text" autocomplete="street-address" placeholder="Street, town" required></div>
-      <div class="field"><label class="l" for="to">Moving to</label><input id="to" name="to" type="text" placeholder="Street, town" required></div>
+      <div class="field" id="to-field"><label class="l" for="to">Moving to</label><input id="to" name="to" type="text" placeholder="Street, town" required></div>
       <div class="field"><label class="l" for="date">Moving date</label><input id="date" name="date" type="date" required></div>
-      <div class="field"><label class="l" for="notes">Anything we should know?</label><span class="hint">Stairs, elevator, parking, heavy or fragile items.</span><textarea id="notes" name="notes"></textarea></div>
+      <div class="field" id="m-good" hidden><label class="l" for="notes-good">Good Stuff Removal inventory manifest</label><span class="hint">Please detail the premium furniture configurations and smalls you want to rehome and describe the physical path out to the driveway.</span><textarea id="notes-good"></textarea></div>
+      <div class="field" id="m-small" hidden><label class="l" for="notes-small">Small Batch Moves manifest &amp; constraints</label><span class="hint">Please detail exactly what furniture and smalls you are moving and outline your target route.<br><br><b>Note on service assumptions:</b> All standard flat rates assume straightforward, first-floor, drive-up accessibility ('drive up and load'). If your pickup or delivery involves alternative conditions, please describe them explicitly below (e.g., second floor, multi-story stairs, narrow elevator access, or tight architectural turns).<br><br><b>Remote pickups &amp; Facebook purchases:</b> We completely understand if you do not have a walkthrough path video for the pickup side of the route because you do not live there yet. If you are purchasing an item remotely, simply describe the item configurations as listed by the seller, and upload the seller's original listing photos right here so we can lock in your binding rate.</span><textarea id="notes-small"></textarea></div>
     </section>
 
     <section class="step">
@@ -107,15 +116,15 @@
 
     <section class="step">
       <h2><span class="num">4</span>Agreement and signature</h2>
-      <!-- TERMS: replace with KWJ Moving's own agreement text when Kenneth sends it, and bump TERMS_VERSION below. -->
-      <div class="terms" id="terms">KWJ Moving LLC · License No.:39PM00506700 · State Licensed &amp; Fully Insured
+      <!-- TERMS: Kenneth's own agreement text (4 Nov 2026). Any change bumps TERMS_VERSION below. -->
+      <div class="terms" id="terms">KWJ Moving LLC · License No.: 39PM00506700 · State Licensed &amp; Fully Insured
 
-1. KWJ Moving reviews your route video, photos and details and sends you one binding flat rate for the move you described.
-2. The flat rate is binding: the price you accept is the price you pay, as long as the move matches what you showed and described.
-3. Under our state-filed mover tariff, the full flat rate is paid when you sign. We do not take deposits or partial payments. Your moving date is secured once payment is received.
-4. By signing below you confirm the details, video and photos you sent are accurate and that you agree to these terms.</div>
+1. KWJ Moving LLC reviews your mobile walkthrough video, photos, and property details, and sends you one binding flat rate to safely clear, relocate, or manage the specified furniture configurations and smalls.
+2. The flat rate is binding: the price you accept is the price you pay, as long as the inventory and route matches what you showed and described.
+3. The full flat rate is paid securely online when you sign. Because we manage a tight logistical schedule with independent owner-operators, your service date is permanently locked once payment is fully cleared.
+4. By signing below, you confirm that the inventory video is accurate and that you explicitly authorize KWJ Moving LLC to execute the transport, or take immediate, unassailable legal possession, care, and control of the specified furniture assets and smalls for community reallocation and premium distribution down our neighborhood network loops. All title and claims to any relinquished items are permanently waived upon item extraction.</div>
       <label class="agree"><input type="checkbox" id="agree" required><span>I have read and agree to the terms above.</span></label>
-      <label class="agree"><input type="checkbox" id="notice" required><span id="notice-text">By checking this box and executing this Order for Service, I acknowledge receipt of the NJ DCA informational brochure 'Important Notice to Consumers Using Public Movers and Warehousemen' and explicitly waive the 24-hour advance notification requirement under N.J.A.C. 13:44D-4.2 for short-notice estate dispersal services.</span></label>
+      <label class="agree"><input type="checkbox" id="notice" required><span id="notice-text">By checking this box and executing this Order for Service, I acknowledge receipt of the NJ DCA informational brochure 'Important Notice to Consumers Using Public Movers and Warehousemen' and explicitly waive the 24-hour advance notification requirement under N.J.A.C. 13:44D-4.2 for short-notice services.</span></label>
       <p class="brochure"><a href="https://www.njconsumeraffairs.gov/News/Consumer%20Briefs/public-movers-and-warehousemen.pdf" target="_blank" rel="noopener">Read the brochure: Important Notice to Consumers Using Public Movers and Warehousemen (PDF, NJ Division of Consumer Affairs)</a></p>
       <label class="l" for="sig">Signature</label>
       <div class="sig-wrap">
@@ -144,7 +153,7 @@
 <script>
   // Set to the Google Apps Script web app URL after deploying clients/kwj-moving/apps-script (see its README).
   var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyEKlS1jhg0Q_vOurynZmDF_i5163uEo1iWUuPdQsoxWX0YQKCqYLTOINLT46IY9iEp/exec';
-  var TERMS_VERSION = 'KWJ-terms-2026-11-03-njdca';
+  var TERMS_VERSION = 'KWJ-terms-2026-11-04-two-channels';
   // Mailer QR codes open /book/?v=<village>; the village is added to the booking notes.
   var VILLAGE = (new URLSearchParams(location.search).get('v') || '').replace(/[^\w ,.'-]/g, '').slice(0, 40);
   // Kenneth's $1 Square test link. Shown only on kwjmoving.com/book/#pay-test so real customers never pay $1;
@@ -170,6 +179,15 @@
   document.getElementById('photos').onchange = function () { photos = photos.concat([].slice.call(this.files)).slice(0, MAX_PHOTOS); list('photo-list', photos); this.value = ''; };
 
   var f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
+  // Service channel: shows its manifest box; Good Stuff Removal has no delivery address.
+  function service() { var s = f.querySelector('input[name=service]:checked'); return s ? s.value : ''; }
+  [].forEach.call(f.querySelectorAll('input[name=service]'), function (r) {
+    r.onchange = function () {
+      var good = service() === 'GOOD STUFF REMOVAL';
+      document.getElementById('m-good').hidden = !good; document.getElementById('m-small').hidden = good;
+      document.getElementById('to-field').hidden = good; f.to.required = !good;
+    };
+  });
   function fail(msg, el) { err.textContent = msg; if (el) el.scrollIntoView({ block: 'center' }); }
   function call(body) {
     return fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
@@ -189,7 +207,8 @@
 
   f.addEventListener('submit', function (e) {
     e.preventDefault(); err.textContent = '';
-    var bad = [].slice.call(f.querySelectorAll('input[required]')).filter(function (i) { return i.type === 'checkbox' ? !i.checked : !i.value.trim() || !i.checkValidity(); })[0];
+    if (!service()) return fail('Please select Small Batch Move or Good Stuff Removal.', f.querySelector('input[name=service]'));
+    var bad = [].slice.call(f.querySelectorAll('input[required]')).filter(function (i) { return i.type === 'radio' ? false : i.type === 'checkbox' ? !i.checked : !i.value.trim() || !i.checkValidity(); })[0];
     if (bad && bad.type !== 'checkbox') return fail('Please fill in: ' + f.querySelector('label[for=' + bad.id + ']').textContent + '.', bad);
     if (!video.length && !photos.length) return fail('Please add your route video or at least one photo.', document.getElementById('video'));
     if (video[0] && video[0].size > MAX_VIDEO) return fail('That video is over 500 MB. Please record a shorter one.', document.getElementById('video'));
@@ -214,7 +233,7 @@
     }, Promise.resolve())
       .then(function () {
         ptext.textContent = 'Saving your signed booking…';
-        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: f.to.value.trim(), date: f.date.value, notes: (VILLAGE ? 'Came from: ' + VILLAGE + ' mailer\n' : '') + f.notes.value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent + '\n\n[Checked] ' + document.getElementById('notice-text').textContent + '\nBrochure: https://www.njconsumeraffairs.gov/News/Consumer%20Briefs/public-movers-and-warehousemen.pdf', signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
+        return call({ action: 'submit', bookingId: id, name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), from: f.from.value.trim(), to: service() === 'GOOD STUFF REMOVAL' ? 'Good Stuff Removal (no delivery address)' : f.to.value.trim(), date: f.date.value, notes: 'Service: ' + service() + '\n' + (VILLAGE ? 'Came from: ' + VILLAGE + ' mailer\n' : '') + document.getElementById(service() === 'GOOD STUFF REMOVAL' ? 'notes-good' : 'notes-small').value.trim(), terms: TERMS_VERSION, termsText: document.getElementById('terms').textContent + '\n\n[Checked] ' + document.getElementById('notice-text').textContent + '\nBrochure: https://www.njconsumeraffairs.gov/News/Consumer%20Briefs/public-movers-and-warehousemen.pdf', signature: c.toDataURL('image/png'), signedAt: new Date().toString(), files: uploaded });
       })
       .then(function () { f.style.display = 'none'; document.getElementById('done').style.display = 'block'; scrollTo(0, 0); })
       .catch(function (e2) { go.disabled = false; go.textContent = 'Send my booking request'; fail(e2.message || 'Could not send. Please try again.'); });
