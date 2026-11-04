@@ -35,6 +35,7 @@
   .field:last-child { margin-bottom: 0; }
   .pick { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 12px; border: 1.5px dashed var(--slate); border-radius: 12px; background: #fff; font-weight: 700; color: var(--slate-ink); cursor: pointer; text-align: center; }
   .pick input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   ul.files { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
   ul.files li { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
   ul.files li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -89,8 +90,11 @@
       <h2><span class="num">3</span>Route video and photos</h2>
       <div class="field">
         <label class="l">Route video</label>
-        <span class="hint">Walk from the truck parking spot to the door and through each room. Under 2 minutes is best.</span>
-        <label class="pick">Add route video<input id="video" type="file" accept="video/*" capture="environment"></label>
+        <span class="hint">Walk from the truck parking spot to the door and through each room. Under 2 minutes is best. Already filmed it? Pick it from your phone.</span>
+        <div class="picks">
+          <label class="pick">Record a video now<input id="video" type="file" accept="video/*" capture="environment"></label>
+          <label class="pick">Choose a saved video<input id="video-saved" type="file" accept="video/*"></label>
+        </div>
         <ul class="files" id="video-list"></ul>
       </div>
       <div class="field">
@@ -161,7 +165,8 @@
   var video = [], photos = [];
   function mb(n) { return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
   function list(id, files) { document.getElementById(id).innerHTML = files.map(function (f) { return '<li><span></span><span>' + mb(f.size) + '</span></li>'; }).join(''); var items = document.getElementById(id).children; files.forEach(function (f, i) { items[i].firstChild.textContent = f.name; }); }
-  document.getElementById('video').onchange = function () { video = [].slice.call(this.files, 0, 1); list('video-list', video); };
+  // Two pickers, one video: "record now" opens the camera, "choose saved" opens the phone's library.
+  document.getElementById('video').onchange = document.getElementById('video-saved').onchange = function () { video = [].slice.call(this.files, 0, 1); list('video-list', video); this.value = ''; };
   document.getElementById('photos').onchange = function () { photos = photos.concat([].slice.call(this.files)).slice(0, MAX_PHOTOS); list('photo-list', photos); this.value = ''; };
 
   var f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
