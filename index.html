@@ -83,6 +83,11 @@
   .hero { padding: 64px 0 0; overflow: hidden; }
   .hero-text { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: end; }
   .hero h1 { font-size: clamp(34px, 5vw, 64px); font-stretch: 92%; color: var(--slate); max-width: 16ch; letter-spacing: .01em; }
+  .title-box { background: var(--slate); color: #fff; border-radius: 16px; padding: 32px 30px; }
+  .title-box h1 { color: #fff; font-size: clamp(34px, 5vw, 60px); font-stretch: 92%; letter-spacing: .01em; }
+  .title-sub { margin: 14px 0 0; font-size: clamp(18px, 2.2vw, 24px); font-weight: 800; letter-spacing: .02em; }
+  .title-tag { margin: 8px 0 0; font-size: 19px; color: #E3E9EF; }
+  .title-cred { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid rgba(217,164,65,.45); color: var(--gold); font-weight: 700; font-size: 16px; line-height: 1.5; }
   .hero .sub { font-size: 22px; font-weight: 800; color: var(--slate); max-width: 30em; margin-bottom: 12px; }
   .lead { font-size: 20px; color: var(--muted); max-width: 30em; margin-bottom: 26px; }
   .book-link { margin-top: 14px; font-size: 16px; }
@@ -276,7 +281,12 @@
   <section class="hero">
     <div class="wrap">
       <div class="hero-text">
-        <h1>PREMIUM SENIOR REHOMING &amp; LOGISTICS SPECIALISTS</h1>
+        <div class="title-box">
+          <h1>KWJ MOVING LLC</h1>
+          <p class="title-sub">GOOD STUFF REMOVAL: WE LIGHTEN THE LOAD</p>
+          <p class="title-tag">If we can find it a home, we take it.</p>
+          <p class="title-cred">The Price You Sign Is The Price You Pay. Period.<br>State Licensed &amp; Fully Insured | NJ Public Mover Lic # 39PM00506700</p>
+        </div>
         <div>
           <p class="sub">The Price You Sign Is The Price You Pay. Period. Fully State-Licensed &amp; Insured.</p>
           <p class="lead">Text us a short video of your home and the way out. We send back one binding flat rate for the whole move, so nothing changes on moving day.</p>
